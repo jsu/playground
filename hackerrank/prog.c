@@ -1,14 +1,14 @@
 #include <stdio.h>
-#include <math.h>
 
 int main(void)
 {
-    double meal_cost;
-    int tip_percent, tax_percent;
-
-    scanf("%lf %d %d", &meal_cost, &tip_percent, &tax_percent);
-    printf("The total meal cost is %d dollars.\n", 
-        (int)round(meal_cost * (1 + (double)(tip_percent + tax_percent) / 100)));
-
+    int x1, v1, x2, v2;
+    scanf("%d %d %d %d", &x1, &v1, &x2, &v2);
+    if(v1 <= v2)
+        printf("NO\n");
+    else if((x1 - x2) % (v2 - v1) == 0)
+        printf("YES\n");
+    else
+        printf("NO\n");
     return 0;
 }
