@@ -432,7 +432,7 @@ void *local_control_thread(void *mosq)
         if(button_status[0] == 3)
             counter++;
 
-        /* Machine is not running. Only on/off is available. */
+        /* If machine is not running. Only on/off is available. */
         if(status.machine == 0)
             continue;
         
@@ -481,7 +481,12 @@ void *local_control_thread(void *mosq)
             current_node = ptr = menu_d();
             printf("btn3 [Down] pressed %d\n", ptr->id);
             if(low_node && ptr->id == low_node->id)
+            {
                 low_node = NULL;
+                for(i = 0; i < 3; i++)
+                    if(ptr->prev)
+                        ptr = ptr->prev; 
+            }
             else if(low_node)
             {
                 printf("low_node: %d\n", low_node->id);  
@@ -521,6 +526,11 @@ void *local_control_thread(void *mosq)
             printf("btn4 [Enter] pressed %d\n", ptr->id);
             if(ptr->parent->id == prev_node->id)
             {
+                low_node = current_node;
+                for(i = 0; i < 3; i++)
+                    if(low_node->next)
+                        low_node = low_node->next;
+                printf("set lownode: %d", low_node->id);
                 high_node = ptr;
                 for(i = 0; i < 4; i++)
                 {
@@ -543,8 +553,9 @@ void *local_control_thread(void *mosq)
         {
             prev_node = current_menu_node();
             current_node = ptr = menu_b();
-            printf("btn5 [Exit] pressed %d\n", ptr->id);
-            if(prev_node->id != 1 && ptr->id == prev_node->parent->id)
+            printf("btn5 [Exit] pressed %d prev %d\n", ptr->id, prev_node->id);
+            /* prev_node->id > 10 so the top level won't go back. */
+            if(prev_node->id > 10 && ptr->id == prev_node->parent->id)
             {
                 pos = ptr->id;
                 if(pos != 1)
@@ -552,7 +563,6 @@ void *local_control_thread(void *mosq)
                         if(ptr->prev)
                             ptr = ptr->prev; 
                 high_node = ptr;
-                printf("start from %d\n", ptr->id);
                 for(i = 0; i < 4; i++)
                 {
                     if(ptr)

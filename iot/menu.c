@@ -59,7 +59,7 @@ int init_menu()
 
     ptr = parent = NULL;
     ptr = insert_next(ptr, "1.Manual", 1, parent);
-    ptr = insert_next(ptr, "2.Air Purify", 2, parent);
+    ptr = insert_next(ptr, "2.Air Purifier", 2, parent);
     ptr = insert_next(ptr, "3.Comfort", 3, parent);
     ptr = insert_next(ptr, "4.Remote", 4, parent);
     _curr_node = _head = ptr;
