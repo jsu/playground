@@ -103,6 +103,26 @@ int init_menu()
     ptr = insert_next(ptr, "1-3-4", 134, parent);
     _head->child->next->next->child = ptr;
 
+    parent = _head->child->next->next->next->next->next->next;
+    ptr = NULL;
+    ptr = insert_next(ptr, "1-7-1", 171, parent);
+    ptr = insert_next(ptr, "1-7-2", 172, parent);
+    ptr = insert_next(ptr, "1-7-3", 173, parent);
+    ptr = insert_next(ptr, "1-7-4", 174, parent);
+    ptr = insert_next(ptr, "1-7-5", 175, parent);
+    ptr = insert_next(ptr, "1-7-6", 176, parent);
+    ptr = insert_next(ptr, "1-7-7", 177, parent);
+    ptr = insert_next(ptr, "1-7-8", 178, parent);
+    _head->child->next->next->next->next->next->next->child = ptr;
+
+    parent = _head->child->next->next->next->next->next->next->next;
+    ptr = NULL;
+    ptr = insert_next(ptr, "1-8-1", 181, parent);
+    ptr = insert_next(ptr, "1-8-2", 182, parent);
+    ptr = insert_next(ptr, "1-8-3", 183, parent);
+    ptr = insert_next(ptr, "1-8-4", 184, parent);
+    _head->child->next->next->next->next->next->next->next->child = ptr;
+
     parent = _head->next;
     ptr = NULL;
     ptr = insert_next(ptr, "2-1", 21, parent);

@@ -552,16 +552,16 @@ void *local_control_thread(void *mosq)
         {
             prev_node = current_menu_node();
             current_node = ptr = menu_b();
-            printf("btn5 [Exit] pressed %d prev %d\n", ptr->id, prev_node->id);
+            printf("btn5 [Exit] pressed %d prev %d", ptr->id, prev_node->id);
             /* prev_node->id > 10 so the top level won't go back. */
             if(prev_node->id > 10 && ptr->id == prev_node->parent->id)
             {
                 pos = ptr->id;
-                if(pos != 1)
-                    for(i = pos; i > 0 && i > (pos - 3); i--)
-                        if(ptr->prev)
-                            ptr = ptr->prev; 
+                for(i = pos; i > 0 && i > (pos - 3); i--)
+                    if(ptr->prev)
+                        ptr = ptr->prev; 
                 high_node = ptr;
+                low_node = NULL;
                 for(i = 0; i < 4; i++)
                 {
                     if(ptr)
