@@ -552,7 +552,7 @@ void *local_control_thread(void *mosq)
         {
             prev_node = current_menu_node();
             current_node = ptr = menu_b();
-            printf("btn5 [Exit] pressed %d prev %d", ptr->id, prev_node->id);
+            printf("btn5 [Exit] pressed %d prev %d\n", ptr->id, prev_node->id);
             /* prev_node->id > 10 so the top level won't go back. */
             if(prev_node->id > 10 && ptr->id == prev_node->parent->id)
             {
@@ -748,18 +748,14 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    /*
     pthread_create(&id_sensor_pub, NULL, sensor_publish_thread, (void *)mosq);
     pthread_create(&id_status_pub, NULL, status_publish_thread, (void *)mosq);
-    */
     pthread_create(&id_local_ctrl, NULL, local_control_thread, (void *)mosq);
-    /*
     pthread_create(&id_remote_ctrl, NULL, remote_control_thread, (void *)mosq);
     pthread_join(id_sensor_pub, NULL);
     pthread_join(id_status_pub, NULL);
-    */
     pthread_join(id_local_ctrl, NULL);
-    //pthread_join(id_remote_ctrl, NULL);
+    pthread_join(id_remote_ctrl, NULL);
 
     mosquitto_destroy(mosq);
     mosquitto_lib_cleanup();
