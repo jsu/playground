@@ -195,6 +195,11 @@ struct Node *current_menu_node()
     return _curr_node;
 }
 
+void reset_current_menu_node()
+{
+    _curr_node = _head;    
+}
+
 /*
 int main(int argc, char **argv)
 {

@@ -16,3 +16,4 @@ struct Node *menu_d(); /* Move Down */
 struct Node *menu_e(); /* Enter */
 struct Node *menu_b(); /* Exit (Back) */
 struct Node *current_menu_node();
+void reset_current_menu_node();

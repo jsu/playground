@@ -85,11 +85,8 @@ void machine_switch(struct mosquitto *mosq, int flag, uint8_t long_press)
         }
         else
         {
-            /* Move menu cursor back to top first item. */
-            menu_b(); menu_b(); menu_b(); menu_b();
-            menu_u(); menu_u(); menu_u(); menu_u(); 
-                
             current_node = ptr = current_menu_node();
+            printf("current_menu_node: %d\n", current_node->id);
             for(i = 0; i < 4; i++)
             {
                 if(ptr)
@@ -118,8 +115,8 @@ void machine_switch(struct mosquitto *mosq, int flag, uint8_t long_press)
         else
         {
             sprintf(*(b + 0), "********************");
-            sprintf(*(b + 1), "* Breathing        *");
-            sprintf(*(b + 2), "*         Forest   *");
+            sprintf(*(b + 1), "*  Forest          *");
+            sprintf(*(b + 2), "*         Breath   *");
             sprintf(*(b + 3), "********************");
             lcd_display(b);
         }
@@ -425,6 +422,8 @@ void *local_control_thread(void *mosq)
             {
                 printf("btn1 [Power Start/Stop] normal press\n");
             }
+            reset_current_menu_node();
+            high_node = low_node = prev_node = NULL;
             machine_switch(mosq, !status.machine, long_press);
             counter = 0;
             long_press = 0;
@@ -524,13 +523,13 @@ void *local_control_thread(void *mosq)
             prev_node = current_menu_node();
             current_node = ptr = menu_e();
             printf("btn4 [Enter] pressed %d\n", ptr->id);
-            if(ptr->parent->id == prev_node->id)
+            if(ptr->parent != NULL && ptr->parent->id == prev_node->id)
             {
                 low_node = current_node;
                 for(i = 0; i < 3; i++)
                     if(low_node->next)
                         low_node = low_node->next;
-                printf("set lownode: %d", low_node->id);
+                printf("set lownode: %d\n", low_node->id);
                 high_node = ptr;
                 for(i = 0; i < 4; i++)
                 {
@@ -543,8 +542,8 @@ void *local_control_thread(void *mosq)
                     else
                         sprintf(*(buffer + i), " ");
                 }
+                lcd_display(buffer);
             }
-            lcd_display(buffer);
         }
 
         bcm2835_spi_transfernb(out_ch5, ch_data, 3);
@@ -574,8 +573,8 @@ void *local_control_thread(void *mosq)
                     else
                         sprintf(*(buffer + i), " ");
                 }
+                lcd_display(buffer);
             }
-            lcd_display(buffer);
         }
     }
 
