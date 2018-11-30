@@ -51,3 +51,12 @@ Module.symvers
 Mkfile.old
 dkms.conf
 prog.c
+
+# MacOS
+.DS_Store
+
+# My int tool
+int
+
+# virtualenv (Python)
+.env
