@@ -15,10 +15,22 @@ typedef struct hash_table_s
     hash_item_t **array;
 }hash_table_t;
 
+/* djb2 by Dan Bernstein */
+unsigned int hash(int key)
+{
+    /* int will fit in a 12-char-array */
+    char str[12], *p;
+    int hash = 5381;
+    sprintf(str, "%d", key);
+    for(p = str; *p != '\0'; p++)
+        hash = (hash << 5) + hash + *p;
+    return hash;
+}
+
 void put(hash_table_t *table, int key, int value)
 {
     hash_item_t *item, *prev;
-    size_t index = (size_t)key;	
+    size_t index = (size_t)hash(key);	
     index %= TABLE_SIZE;
 
     if(table->array[index] == NULL)
@@ -57,7 +69,7 @@ void put(hash_table_t *table, int key, int value)
 int get(hash_table_t *table, int key)
 {
     hash_item_t *item;
-    size_t index = (size_t)key;
+    size_t index = (size_t)hash(key);
     index %= TABLE_SIZE;
 
     if(table->array[index] == NULL)
@@ -101,7 +113,7 @@ int* twoSum(int* nums, int numsSize, int target) {
 
 int main(int argc, char **argv)
 {
-    int a[] = {2, 7, 11, 15}, *r;
+    int a[] = {2, 11, 7, 15}, *r;
     r = twoSum(a, 4, 9);
     printf("%d %d\n", r[0], r[1]);
     return 0;
