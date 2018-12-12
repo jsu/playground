@@ -1,32 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_SIZE    100 * 1000 * 1000
+
 typedef struct node_s {
     int n;
     struct node_s *next;
 }node_t;
 
-node_t *push(node_t *root, int n)
+void push(node_t *root, int n)
 {
-    node_t *node, *p;
+    node_t *node;
     node = (node_t *)malloc(sizeof(node));
     node->n = n;
-    node->next = NULL;
-
-    if(root == NULL)
-    {
-        root = node;
-        return root;
-    }
-
-    p = root;
-    while(p->next != NULL)
-       p = p->next;
-    p->next = node;
-
-    return root;
+    node->next = root;
+    root = node;
 }
 
+/*
 node_t *reverse_list(node_t *root)
 {
     node_t *current, *next, *prev;
@@ -43,6 +32,7 @@ node_t *reverse_list(node_t *root)
     root = prev;
     return root;
 }
+*/
 
 node_t *int_to_list(int number)
 {
@@ -64,7 +54,7 @@ node_t *int_to_list(int number)
         root = push(root, n);
         number /= 10;
     }
-    return reverse_list(root);
+    return root;
 }
 
 int solution(int A, int B)
